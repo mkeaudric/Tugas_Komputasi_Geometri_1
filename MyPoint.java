@@ -1,0 +1,38 @@
+public class MyPoint {
+    /** komen di sini */
+    public double x;
+    /** komen di sini */
+    public double y;
+
+    /**
+     * konstruktor
+     * @param x
+     * @param y
+     */
+    MyPoint (double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    /**
+     * [1] jarak ke titik laen
+     * @param o
+     * @return
+     */
+    double distanceToOtherPoints(MyPoint o) {
+        // kartesian
+        double dx = this.x - o.x;
+        double dy = this.y - o.y;
+        return Math.sqrt(dx*dx + dy*dy);
+    }
+    
+    /**
+     * [2b] jarak ke segmen garis
+     * @param l
+     * @return
+     */
+    double distanceToLineSegment(MyLineSegment l) {
+        //panggil aja dari l, l.distanceToPoint(this);
+        return l.distanceToPoint(this);
+    }
+}
