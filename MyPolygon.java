@@ -51,8 +51,7 @@ public class MyPolygon {
         int i, size = Points.size(); // biar size dihitung sekali aja
         // kalo pake rumus terakhir di ppt, segmen terakhir juga harus dihitung
         // misal segitiga abc, maka loop nya cek untuk ab, bc, ca
-        // jadi pakai i <= size, ntar tgl di mod
-        for(i = 0; i <= size; i++){ 
+        for(i = 0; i < size; i++){ 
             int idx1 = i%size; // index yang dimod
             int idx2 = (i+1)%size; // sama kek idx1
 
