@@ -23,7 +23,7 @@ public class CG {
         //     = (q.x - p.x)(r.x - p.x) + (q.y - p.y)(r.y - p.y)
         // NOTE : dot gbs pake pq qr, harus pq pr (sumber : nanya Gemini)
         double res = (q.x - p.x)*(r.x - p.x) + (q.y - p.y)*(r.y - p.y);
-        return Math.abs(res) <= 0.00000001 ? 0 : Math.abs(res);
+        return Math.abs(res) <= 0.00000001 ? 0 : res;
     }
 
     /**
@@ -38,9 +38,8 @@ public class CG {
         // NOTE : cross pq qr atau cross pq pr sama hasilnya, saya pake yg pq qr (sumber : nyoba sendiri di bawah)
         // double res = (q.x - p.x)*(r.y - p.y) - (q.y - p.y)*(r.x - p.x);
         double res = (q.x - p.x)*(r.y - q.y) - (q.y - p.y)*(r.x - q.x);
-        return Math.abs(res) <= 0.00000001 ? 0 : Math.abs(res);
+        return Math.abs(res) <= 0.00000001 ? 0 : res;
     }
-    // baru liat method ccw sama cross sama aja, info aja di seluruh kelas lain saya pakai yang cross
 
     // debug
     // public static void main(String[] args) {
