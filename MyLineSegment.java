@@ -52,7 +52,6 @@ public class MyLineSegment {
      * @return
      */
     double leftTurnToPoint(MyPoint target) {
-        // BELUM BERES
 		double res = 0.0;
 		res = CG.ccw(this.start, this.end, target);
         return res; //return 0 jika lurus, plus/minus jika belok kanan/kiri,  

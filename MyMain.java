@@ -16,8 +16,8 @@ public class MyMain {
 				MyPoint p = new MyPoint(sc.nextDouble(),sc.nextDouble()); // point p
 				MyPoint q = new MyPoint(sc.nextDouble(),sc.nextDouble()); // point q
 				MyPoint r = new MyPoint(sc.nextDouble(),sc.nextDouble()); // point r
-				MyLineSegment l = new MyLineSegment(p,q); // segmen pq
-				System.out.printf("%.3f\n", l.distanceToPoint(r)); // panggil method hitung jarak pq ke r
+				MyLineSegment l = new MyLineSegment(q, r); // segmen qr
+				System.out.printf("%.3f\n", l.distanceToPoint(p)); // panggil method hitung jarak p ke qr
 			}
 			else if (3==ch) { //fungsi 3
 				MyPoint p = new MyPoint(sc.nextDouble(),sc.nextDouble());
@@ -86,13 +86,13 @@ public class MyMain {
 					if(n < 3) System.out.println("n harus >= 3"); // kalo < 3, kasih info
 				}
 				MyPointSet set = new MyPointSet(); // set buat nyimpen point
-				for(i = 0; i < n; i++){ // masukin titik ke set, langsung di sort
+				for(i = 0; i < n; i++){ // masukin titik ke set
 					set.addPoint(new MyPoint(sc.nextDouble(), sc.nextDouble()));
 				}
-				set.sortPoints();
+				set.sortPoints(); //sorting
 				System.out.println(n); // print n
 				// print semua titik pada array Points pada set
-				for(MyPoint p : set.Points) System.out.println("(" + p.x + " " + p.y + ")"); 
+				for(MyPoint p : set.Points) System.out.println((int)(p.x) + " " + (int)(p.y)); 
 			}
 			ch = sc.nextInt();				// pilihan berikutnya
 		}			

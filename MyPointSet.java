@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class MyPointSet {
     /**  */
@@ -19,46 +21,42 @@ public class MyPointSet {
      * @return
      */
     boolean addPoint(MyPoint p) {
-        // saya pikir coba pake insertion sort + binary search
-        // masukin dulu sambil urutin, kalau udah rada banyak nyari posisi masukinnya pake binary search
-        // sumber : https://www.geeksforgeeks.org/dsa/binary-insertion-sort/
+        return Points.add(p);
+    }
 
-        // kalo arraylist kosong, lgs add terus beres
-        if(Points.isEmpty()) {
-            Points.add(p);
-            return true;
+    /** [8b] Mengurutkan titik dengan menyapu secara melingkar berlawanan arah jarum jam (ccw) berdasarkan sudut kutub (titik acuan/referensi paling kiri dan terbawah) (Graham Scan Sort) */
+    public void sortPoints() {
+        if (Points.size() < 2) return;
+
+        // 1. Cari titik referensi (P): Y paling kecil, lalu X paling kecil
+        MyPoint p0 = Points.get(0);
+        for (MyPoint p : Points) {
+            if (p.y < p0.y || (p.y == p0.y && p.x < p0.x)) {
+                p0 = p;
+            }
         }
+        
+        final MyPoint ref = p0; // Titik referensi tetap untuk comparator
 
-        // nyari titik kiri terbawah buat jadi pivot
-        // int i, size = Points.size();
-        // double ymin = Integer.MAX_VALUE;
-        // MyPoint curPoint, pivot;
-        // for(i = 0; i < size; i++){
-        //     curPoint = Points.get(i);
-        //     if(curPoint.y < ymin){
-        //         ymin = curPoint.y;
-        //         pivot = curPoint;
-        //     } else if(curPoint.y == ymin){ // kalo misal ada 2 titik yg y nya sama" di bawah, ambil yg terkiri (x nya lebih kecil)
-        //         if(curPoint.x < pivot.x) pivot = curPoint; // kalo titik saat ini lebih di kiri, update pivot
-        //     }
-        // }
+        // 2. Gunakan Collections.sort dengan Comparator custom
+        Collections.sort(Points, new Comparator<MyPoint>() {
+            @Override
+            public int compare(MyPoint b, MyPoint c) {
+                if (b == ref) return -1;
+                if (c == ref) return 1;
 
-        // kalo titik di add, bisa jadi pivot baru atau bukan
-        // 1. kalo dia jadi pivot baru
-        if(p.y < pivot.y){
-            
-        }
+                // Gunakan CCW untuk melihat arah dari P -> b -> c
+                // Jika belok kiri, berarti b memiliki sudut lebih kecil dari c
+                double res = CG.ccw(ref, b, c);
 
-        // 2. kalo dia bukan pivot baru, masukin pake binary search
-
-        int loc, low = 0, high = Points.size();
-        while(low <= high){
-            int mid = low + (high - low)/2;
-            if(p.)
-        }
-
-        this.Points.add(p);
-
-        return true;
+                if (res > 0) return -1; // b di kiri c, b lebih dulu
+                if (res < 0) return 1;  // b di kanan c, c lebih dulu
+                
+                // Jika kolinear, yang lebih dekat ke referensi didahulukan
+                double distB = ref.distanceToOtherPoints(b);
+                double distC = ref.distanceToOtherPoints(c);
+                return Double.compare(distB, distC);
+            }
+        });
     }
 }
