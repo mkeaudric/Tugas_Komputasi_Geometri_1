@@ -72,6 +72,19 @@ public class MyLineSegment {
         MyPoint p = other.start;
         MyPoint q = other.end;
 
+        // buat kasus 2 segmen di satu garis lurus yang sama (cross nya 0 tp belum tentu motong)
+        if (CG.cross(a, p, b) == 0 && CG.cross(a, q, b) == 0 && 
+            CG.cross(p, a, q) == 0 && CG.cross(p, b, q) == 0) {
+            
+            // cek apakah rentang x dan rentang y overlap
+            // sumber : https://stackoverflow.com/questions/3269434/whats-the-most-efficient-way-to-test-if-two-ranges-overlap
+            boolean overlapX = Math.max(Math.min(a.x, b.x), Math.min(p.x, q.x)) <= Math.min(Math.max(a.x, b.x), Math.max(p.x, q.x));
+            boolean overlapY = Math.max(Math.min(a.y, b.y), Math.min(p.y, q.y)) <= Math.min(Math.max(a.y, b.y), Math.max(p.y, q.y));
+            
+            // kalo overlap berarti motong (true), kalo ga false
+            return overlapX && overlapY;
+        }
+
         // pertama cek apakah cross apb dan aqb berbeda (bisa cross apb <= 0 dan cross aqb >= 0, atau sebaliknya)
         // disebut di soal ujung di garis dianggap berpotongan, jadi pake <= 0 dan >= 0
         if((CG.cross(a, p, b) <= 0 && CG.cross(a, q, b) >= 0) || (CG.cross(a, p, b) >= 0 && CG.cross(a, q, b) <= 0))
