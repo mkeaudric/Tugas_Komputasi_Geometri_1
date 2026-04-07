@@ -89,14 +89,20 @@ public class MyPolygon {
     boolean isPointInside(MyPoint p){
         // tarik garis dr p ke kanan, kalo interseksi ganjil -> dalem, genap -> luar
         // bikin suatu titik (y nya samain sama p.y) yang lebih kanan dari titik terkanan
-        MyPoint q = new MyPoint(Integer.MAX_VALUE, p.y);
+        MyPoint q = new MyPoint(Float.MAX_VALUE, p.y);
         
-        // degenerate case
-        // kalo pq nyentuh titik -> /= 2 (itungnya jadi 1 interseksi)
-        // kalo pq nyentuh garis misal ab pada kedua titik a dan b (segmen dan segaris) -> diitung di dalem (dari soal)
+        // deg case ? kalo pq nyentuh vertex -> ??
+        // kalo p berimpitan misal sisi ab (segmen dan segaris) -> diitung di dalem (dari soal)
+
+        // untuk degenerate case pq kena vertex, kalo di sumber : https://rosettacode.org/wiki/Ray-casting_algorithm
+        // dia pake epsilon kecil banget buat nambahin
+        // "(To avoid the "ray on vertex" problem, the point is moved upward of a small quantity   ε.)" 
+        double e = 0.0001;
+        MyPoint p_ray = new MyPoint(p.x, p.y + e);
+        MyPoint q_ray = new MyPoint(q.x, p.y + e); 
+        MyLineSegment pq = new MyLineSegment(p_ray, q_ray);
 
         int i, size = Points.size();
-        MyLineSegment pq = new MyLineSegment(p, q);
         int ct = 0;
 
         // cek tiap segmen poligon
@@ -106,7 +112,17 @@ public class MyPolygon {
 
             MyLineSegment ab = new MyLineSegment(a, b);
 
-            if(pq.isIntersect(ab));
+            // p nempel garis ab
+            if(CG.cross(a, p, b) == 0){
+                // ini implementasinya sama persis kayak yang di MyLineSegment.isIntersect
+                // udah cek p segaris ab
+                // tinggal mastiin p ga keluar ujung a dan b, jadi gaperlu Math.max(p.x, q.x), lgs aja p.x
+                boolean overlapX = Math.min(a.x, b.x) <= p.x && p.x <= Math.max(a.x, b.x);
+                boolean overlapY = Math.min(a.y, b.y) <= p.y && p.y <= Math.max(a.y, b.y);
+                if (overlapX && overlapY) return true;
+            }
+
+            if(pq.isIntersect(ab)) ct++;
         }
 
         return ct%2 != 0; // ganjil -> true, genap -> false

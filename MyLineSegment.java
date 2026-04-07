@@ -78,6 +78,10 @@ public class MyLineSegment {
             
             // cek rentang x dan rentang y overlap ga
             // sumber : https://stackoverflow.com/questions/3269434/whats-the-most-efficient-way-to-test-if-two-ranges-overlap
+            // cari maks titik terkiri ab dan titik terkiri pq
+            // cari min titik terkanan ab dan titik terkanan pq
+            // kalo maks <= min motong
+            // juga buat yg y
             boolean overlapX = Math.max(Math.min(a.x, b.x), Math.min(p.x, q.x)) <= Math.min(Math.max(a.x, b.x), Math.max(p.x, q.x));
             boolean overlapY = Math.max(Math.min(a.y, b.y), Math.min(p.y, q.y)) <= Math.min(Math.max(a.y, b.y), Math.max(p.y, q.y));
             
