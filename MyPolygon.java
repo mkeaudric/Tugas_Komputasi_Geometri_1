@@ -98,9 +98,9 @@ public class MyPolygon {
         // dia pake epsilon kecil banget buat nambahin
         // "(To avoid the "ray on vertex" problem, the point is moved upward of a small quantity   ε.)" 
         double e = 0.0001;
-        MyPoint p_ray = new MyPoint(p.x, p.y + e);
-        MyPoint q_ray = new MyPoint(q.x, p.y + e); 
-        MyLineSegment pq = new MyLineSegment(p_ray, q_ray);
+        MyPoint p_eps = new MyPoint(p.x, p.y + e);
+        MyPoint q_eps = new MyPoint(q.x, p.y + e); 
+        MyLineSegment pq_eps = new MyLineSegment(p_eps, q_eps);
 
         int i, size = Points.size();
         int ct = 0;
@@ -112,7 +112,7 @@ public class MyPolygon {
 
             MyLineSegment ab = new MyLineSegment(a, b);
 
-            // p nempel garis ab
+            // p nempel garis ab (ceknya pake yang ga ditambahin epsilon)
             if(CG.cross(a, p, b) == 0){
                 // ini implementasinya sama persis kayak yang di MyLineSegment.isIntersect
                 // udah cek p segaris ab
@@ -122,7 +122,7 @@ public class MyPolygon {
                 if (overlapX && overlapY) return true;
             }
 
-            if(pq.isIntersect(ab)) ct++;
+            if(pq_eps.isIntersect(ab)) ct++;
         }
 
         return ct%2 != 0; // ganjil -> true, genap -> false
